@@ -24,6 +24,8 @@ jobs:
           profile: minimal
       - name: Build
         run: make build
+      - name: Install
+        run: make install
       - name: Test
         run: make test
 
