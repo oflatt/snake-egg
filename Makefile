@@ -11,7 +11,7 @@ install: build
 	  --force-reinstall --no-index --find-link ./target/wheels/
 
 test: tests/*.py install
-	python3 tests/math.py
+	python3 tests/egg_math.py
 	python3 tests/prop.py
 	python3 tests/simple.py
 
