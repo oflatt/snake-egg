@@ -339,7 +339,13 @@ impl egg::CostFunction<PyLang> for PyLangCostFn {
             } else {
                 let name = enode.obj.getattr(py, "__name__").unwrap().to_string();
                 match name.as_str() {
-                    "thefunc" => 1,
+                    "mirror_left" => 1,
+                    "mirror_right" => 1,
+                    "negate_left" => 1,
+                    "negate_right" => 1,
+                    "periodic" => 1,
+                    "exp_recons" => 1,
+                    "thefunc" => 2,
                     _ => 100,
                 }
             }
