@@ -341,7 +341,16 @@ impl egg::CostFunction<PyLang> for PyLangCostFn {
                 match name.as_str() {
                     "mirror" => 1,
                     "negate" => 1,
-                    "periodic" => if enode.obj.getattr(py, "period").unwrap().to_string() == "0" {3} else {1},
+                    "periodic" => {
+                        let arg = enode.obj.getattr(py, "period").unwrap().to_string();
+                        if arg.as_str()
+                            == "_tuplegetter(0, 'Alias for field number 0')"
+                        {
+                            20
+                        } else {
+                            1
+                        }
+                    }
                     "exp_recons" => 1,
                     "thefunc" => 2,
                     _ => 10,
