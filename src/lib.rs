@@ -335,18 +335,16 @@ impl egg::CostFunction<PyLang> for PyLangCostFn {
     {
         let op_cost = Python::with_gil(|py| {
             if enode.is_leaf() {
-                30 // variable, literal, or constant
+                10 // variable, literal, or constant
             } else {
                 let name = enode.obj.getattr(py, "__name__").unwrap().to_string();
                 match name.as_str() {
-                    "mirror_left" => 1,
-                    "mirror_right" => 1,
-                    "negate_left" => 1,
-                    "negate_right" => 1,
-                    "periodic" => 1,
+                    "mirror" => 1,
+                    "negate" => 1,
+                    "periodic" => if enode.obj.getattr(py, "period").unwrap().to_string() == "0" {3} else {1},
                     "exp_recons" => 1,
                     "thefunc" => 2,
-                    _ => 100,
+                    _ => 10,
                 }
             }
         });
