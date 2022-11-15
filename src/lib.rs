@@ -253,7 +253,7 @@ impl Rewrite {
         if name == "" {
             name = Cow::Owned(format!("{} => {}", searcher, applier));
         }
-        let rewrite = egg::Rewrite::new(name, searcher, applier).expect("Failed to create rewrite");
+        let rewrite = egg::Rewrite::new(name.to_string(), searcher, applier).expect("Failed to create rewrite");
         Rewrite { rewrite }
     }
 
@@ -487,23 +487,23 @@ impl EGraph {
         self.egraph.total_size()
     }
 
-    #[args(exprs = "*")]
-    fn explain_equiv(&mut self, exprs: &PyTuple) -> String {
-        assert!(exprs.len() == 2);
-        assert!(self.equiv(exprs));
-        let mut exprs = exprs.iter();
-        let mut lhs = egg::RecExpr::default();
-        build_recexpr(&mut lhs, exprs.next().unwrap());
-        let mut rhs = egg::RecExpr::default();
-        build_recexpr(&mut rhs, exprs.next().unwrap());
-        println!("{} --> {}", lhs, rhs);
-        //let explanation = self.egraph.explain_equivalence(&lhs, &rhs, 100, true);
-        let explanation = self.egraph.explain_equivalence(&lhs, &rhs);
-        println!("found explanation! making string");
-        let retval = explanation.get_string_with_let();
-        println!("got string!");
-        retval
-    }
+    // #[args(exprs = "*")]
+    // fn explain_equiv(&mut self, exprs: &PyTuple) -> String {
+    //     assert!(exprs.len() == 2);
+    //     assert!(self.equiv(exprs));
+    //     let mut exprs = exprs.iter();
+    //     let mut lhs = egg::RecExpr::default();
+    //     build_recexpr(&mut lhs, exprs.next().unwrap());
+    //     let mut rhs = egg::RecExpr::default();
+    //     build_recexpr(&mut rhs, exprs.next().unwrap());
+    //     println!("{} --> {}", lhs, rhs);
+    //     //let explanation = self.egraph.explain_equivalence(&lhs, &rhs, 100, true);
+    //     let explanation = self.egraph.explain_equivalence(&lhs, &rhs);
+    //     println!("found explanation! making string");
+    //     let retval = explanation.get_string_with_let();
+    //     println!("got string!");
+    //     retval
+    // }
 }
 
 fn reconstruct(py: Python, recexpr: &RecExpr<PyLang>) -> PyObject {
