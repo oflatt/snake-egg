@@ -263,7 +263,7 @@ impl Rewrite {
     }
 }
 
-#[derive(Default)]
+#[derive(Default,Clone)]
 struct PyAnalysis {
     eval: Option<PyObject>,
 }
@@ -487,14 +487,13 @@ impl EGraph {
         self.egraph.total_size()
     }
 
-    fn intersect(&self, other: &EGraph) -> EGraph {
-        let self_egraph = self.egraph;
-        let other = other.egraph;
-        let mut result = EGraph {
-            egraph: egg::EGraph::new(self.egraph.analysis)
-        };
-        self_egraph.egraph_intersect_incomplete(&mut other, result);
-        result
+    fn intersect(&mut self, other: &mut EGraph) -> EGraph {
+        let mut result = egg::EGraph::new(self.egraph.analysis.clone());
+        self.egraph.egraph_intersect_incomplete(&mut other.egraph, &mut result);
+
+        EGraph {
+            egraph: result
+        }
     }
 
     // #[args(exprs = "*")]
