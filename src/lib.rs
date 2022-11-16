@@ -487,6 +487,16 @@ impl EGraph {
         self.egraph.total_size()
     }
 
+    fn intersect(&self, other: &EGraph) -> EGraph {
+        let self_egraph = self.egraph;
+        let other = other.egraph;
+        let mut result = EGraph {
+            egraph: egg::EGraph::new(self.egraph.analysis)
+        };
+        self_egraph.egraph_intersect_incomplete(&mut other, result);
+        result
+    }
+
     // #[args(exprs = "*")]
     // fn explain_equiv(&mut self, exprs: &PyTuple) -> String {
     //     assert!(exprs.len() == 2);
