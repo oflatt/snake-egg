@@ -1,10 +1,12 @@
 .PHONY: all build test install doc clean distclean
 
 
+MATURIN = python3 -m maturin
+
 all: test
 
 build:
-	maturin build --release
+	$(MATURIN) build --release
 
 install: build
 	python3 -m pip install snake_egg \
@@ -22,5 +24,5 @@ shell: install
 	python3 -ic 'import snake_egg'
 
 clean:
-	maturin clean
+	$(MATURIN) clean
 
