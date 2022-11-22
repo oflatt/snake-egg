@@ -353,6 +353,7 @@ impl egg::CostFunction<PyLang> for PyLangCostFn {
                     }
                     "exp_recons" => 1,
                     "thefunc" => 2,
+                    "recons" => 100,
                     _ => 10,
                 }
             }
@@ -488,7 +489,7 @@ impl EGraph {
     }
 
     fn intersect(&mut self, other: &mut EGraph) -> EGraph {
-        let mut result = egg::EGraph::new(self.egraph.analysis.clone());
+        let mut result = egg::EGraph::new(self.egraph.analysis.clone()).with_explanations_enabled();
         self.egraph.egraph_intersect_incomplete(&mut other.egraph, &mut result);
 
         EGraph {
