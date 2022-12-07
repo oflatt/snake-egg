@@ -489,8 +489,7 @@ impl EGraph {
     }
 
     fn intersect(&mut self, other: &mut EGraph) -> EGraph {
-        let mut result = egg::EGraph::new(self.egraph.analysis.clone()).with_explanations_enabled();
-        self.egraph.egraph_intersect_incomplete(&mut other.egraph, &mut result);
+        let result = self.egraph.egraph_intersect(&other.egraph, self.egraph.analysis.clone());
 
         EGraph {
             egraph: result
